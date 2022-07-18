@@ -4,6 +4,8 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger: none
+pool:
+  vmImage: 'windows-latest'
 variables:
 - name: solution
   value: '**/*.sln'
@@ -70,7 +72,7 @@ stages:
         PolicyFailAction: '0'
 - stage: Deploy
   jobs:
-  - job: Job
+  - job: Deploy
     pool:
       vmImage: 'windows-latest'
     steps:
