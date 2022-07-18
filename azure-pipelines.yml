@@ -57,7 +57,7 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
     - task: FortifyOnDemandStatic@8
-      enabled: false
+      enabled: true
       inputs:
         FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
         FodConnection: 'newFortifyConn'
