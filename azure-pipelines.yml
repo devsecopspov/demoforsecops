@@ -1,18 +1,16 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger: none
-
-pool:
-  vmImage: 'windows-latest'
-
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: buildConfiguration
+  value: 'Release'
 stages:
 - stage: Build
   jobs:
@@ -20,19 +18,29 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
+    
+    - task: SonarCloudPrepare@1
+      enabled: true
+      inputs:
+        SonarCloud: 'sonarcloud'
+        organization: 'swapnetasupkar1908'
+        scannerMode: 'MSBuild'
+        projectKey: 'swapnetasupkar1908_Coredotnetdemo'
+        projectName: 'Coredotnetdemo'
     - task: NuGetToolInstaller@1
-
     - task: NuGetCommand@2
       inputs:
         restoreSolution: '$(solution)'
-
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
         msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\Web\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-
+    - task: SonarCloudPublish@1
+      enabled: true
+      inputs:
+        pollingTimeoutSec: '300'
     - task: VSTest@2
       inputs:
         platform: '$(buildPlatform)'
@@ -46,29 +54,37 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+    - task: FortifyOnDemandStatic@8
+      enabled: false
+      inputs:
+        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
+        FodConnection: 'newFortifyConn'
+        ReleaseOptions: '1'
+        BSIToken: 'eyJ0ZW5hbnRJZCI6MjMyODksInRlbmFudENvZGUiOiJBY2NlbnR1cmVfNTk2NzQ3Mjg2X0ZNQV8zMjA5NDMzNjAiLCJyZWxlYXNlSWQiOjE4MzA0MSwicGF5bG9hZFR5cGUiOiJBTkFMWVNJU19QQVlMT0FEIiwiYXNzZXNzbWVudFR5cGVJZCI6MTQsInRlY2hub2xvZ3lUeXBlIjoiLk5FVCIsInRlY2hub2xvZ3lUeXBlSWQiOjEsInRlY2hub2xvZ3lWZXJzaW9uIjoiNC41IiwidGVjaG5vbG9neVZlcnNpb25JZCI6MTEsImF1ZGl0UHJlZmVyZW5jZSI6IkF1dG9tYXRlZCIsImF1ZGl0UHJlZmVyZW5jZUlkIjoyLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJwb3J0YWxVcmkiOiJodHRwczovL3RyaWFsLmZvcnRpZnkuY29tLyIsImFwaVVyaSI6Imh0dHBzOi8vYXBpLnRyaWFsLmZvcnRpZnkuY29tIiwic2NhblByZWZlcmVuY2UiOiJTdGFuZGFyZCIsInNjYW5QcmVmZXJlbmNlSWQiOjF9'
+        EntitlementSelection: '1'
+        EntitlementPreference: '0'
+        OverrideScanSettings: '2'
+        InProgressScanActionType: '0'
+        RemediationScanPreference: '0'
+        BuildType: 'none'
+        PolicyFailAction: '0'
 - stage: Deploy
   jobs:
-  - job: Deploy
+  - job: Job
     pool:
-          vmImage: 'windows-latest'
+      vmImage: 'windows-latest'
     steps:
-    - task: DownloadBuildArtifacts@1
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: |
-          # Write your PowerShell commands here.
-          
-          Write-Host $(System.ArtifactsDirectory)
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'azConn'
-        appType: 'webApp'
-        WebAppName: 'CoreDotNetApp'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
+      - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'azConn'
+          appType: 'webApp'
+          WebAppName: 'CoreDotNetApp'
+          packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
+    
