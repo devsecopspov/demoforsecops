@@ -7,14 +7,6 @@ trigger: none
 pool:
   vmImage: 'windows-latest'
 
-parameters:
-  - name: serviceConn
-    displayName: "serviceConn"
-    type: string
-    values:
-    - azConn
-    - coreRGConn
-
 variables:
 - name: solution
   value: '**/*.sln'
@@ -94,7 +86,7 @@ stages:
       - task: AzureRmWebAppDeployment@4
         inputs:
           ConnectionType: 'AzureRM'
-          azureSubscription: ${{ parameters.serviceConn }}
+          azureSubscription: 'azConn'
           appType: 'webApp'
           WebAppName: 'CoreDotNetApp'
           packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
