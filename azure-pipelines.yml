@@ -6,6 +6,15 @@
 trigger: none
 pool:
   vmImage: 'windows-latest'
+
+parameters:
+  - name: serviceConn
+    displayName: "serviceConn"
+    type: string
+    values:
+    - azConn
+    - coreRGConn
+
 variables:
 - name: solution
   value: '**/*.sln'
@@ -57,7 +66,7 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
     - task: FortifyOnDemandStatic@8
-      enabled: true
+      enabled: false
       inputs:
         FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
         FodConnection: 'newFortifyConn'
@@ -85,7 +94,7 @@ stages:
       - task: AzureRmWebAppDeployment@4
         inputs:
           ConnectionType: 'AzureRM'
-          azureSubscription: 'azConn'
+          azureSubscription: ${{ parameters.serviceConn }}
           appType: 'webApp'
           WebAppName: 'CoreDotNetApp'
           packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
