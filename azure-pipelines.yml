@@ -22,15 +22,16 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-    
+    - checkout: self
+      fetchDepth: 0
     - task: SonarCloudPrepare@1
       enabled: true
       inputs:
         SonarCloud: 'sonarcloud'
-        organization: 'swapnetasupkar1908'
+        organization: 'devopscapdemo'
         scannerMode: 'MSBuild'
-        projectKey: 'swapnetasupkar1908_Coredotnetdemo'
-        projectName: 'Coredotnetdemo'
+        projectKey: 'DevOpsCapDemo_DevSecOpsDemo'
+        projectName: 'DevSecOpsDemo'
     - task: NuGetToolInstaller@1
     - task: NuGetCommand@2
       inputs:
