@@ -91,6 +91,6 @@ stages:
           ConnectionType: 'AzureRM'
           azureSubscription: 'azConn'
           appType: 'webApp'
-          WebAppName: 'CoreDotNetApp'
+          WebAppName: 'demowebappforvelocity'
           packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
     
