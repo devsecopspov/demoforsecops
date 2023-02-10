@@ -61,12 +61,12 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
     - task: FortifyOnDemandStatic@8
-      enabled: false
+      enabled: true
       inputs:
         FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
         FodConnection: 'newFortifyConn'
         ReleaseOptions: '1'
-        BSIToken: 'eyJ0ZW5hbnRJZCI6MjUzNDMsInRlbmFudENvZGUiOiJBY2NlbnR1cmVfNDc0NDQ3MDI3X0ZNQV8yMDE4NDk0ODQiLCJyZWxlYXNlSWQiOjIwMDk1OSwicGF5bG9hZFR5cGUiOiJBTkFMWVNJU19QQVlMT0FEIiwiYXNzZXNzbWVudFR5cGVJZCI6MTQsInRlY2hub2xvZ3lUeXBlIjoiLk5FVCIsInRlY2hub2xvZ3lUeXBlSWQiOjEsInRlY2hub2xvZ3lWZXJzaW9uIjoiNS4wIiwidGVjaG5vbG9neVZlcnNpb25JZCI6MzIsImF1ZGl0UHJlZmVyZW5jZSI6IkF1dG9tYXRlZCIsImF1ZGl0UHJlZmVyZW5jZUlkIjoyLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOnRydWUsInBvcnRhbFVyaSI6Imh0dHBzOi8vdHJpYWwuZm9ydGlmeS5jb20vIiwiYXBpVXJpIjoiaHR0cHM6Ly9hcGkudHJpYWwuZm9ydGlmeS5jb20iLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MX0='
+        BSIToken: 'eyJ0ZW5hbnRJZCI6MjUzNDMsInRlbmFudENvZGUiOiJBY2NlbnR1cmVfNDc0NDQ3MDI3X0ZNQV8yMDE4NDk0ODQiLCJyZWxlYXNlSWQiOjIwMDk1OSwicGF5bG9hZFR5cGUiOiJBTkFMWVNJU19QQVlMT0FEIiwiYXNzZXNzbWVudFR5cGVJZCI6MTQsInRlY2hub2xvZ3lUeXBlIjoiLk5FVCIsInRlY2hub2xvZ3lUeXBlSWQiOjEsInRlY2hub2xvZ3lWZXJzaW9uIjoiNS4wIiwidGVjaG5vbG9neVZlcnNpb25JZCI6MzIsImF1ZGl0UHJlZmVyZW5jZSI6IkF1dG9tYXRlZCIsImF1ZGl0UHJlZmVyZW5jZUlkIjoyLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJwb3J0YWxVcmkiOiJodHRwczovL3RyaWFsLmZvcnRpZnkuY29tLyIsImFwaVVyaSI6Imh0dHBzOi8vYXBpLnRyaWFsLmZvcnRpZnkuY29tIiwic2NhblByZWZlcmVuY2UiOiJTdGFuZGFyZCIsInNjYW5QcmVmZXJlbmNlSWQiOjF9'
         EntitlementSelection: '1'
         EntitlementPreference: '0'
         OverrideScanSettings: '2'
