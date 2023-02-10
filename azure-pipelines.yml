@@ -49,6 +49,13 @@ stages:
         pollingTimeoutSec: '300'
     - task: VSTest@2
       inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*Test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+        codeCoverageEnabled: true
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
     - task: CopyFiles@2
