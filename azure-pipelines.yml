@@ -93,7 +93,7 @@ stages:
     - task: NuGetCommand@2
       inputs:
         command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.zip'
         nuGetFeedType: 'internal'
         publishVstsFeed: '4528bd78-c535-4916-bd8a-59275f5a5306/2918157a-5f27-4741-b144-b7960b2b99b6'
 #    - task: FortifyOnDemandStatic@8
