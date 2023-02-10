@@ -42,6 +42,7 @@ stages:
         command: 'test'
         projects: '**/*Test**.csproj'
     - task: VSBuild@1
+      enabled: false
       inputs:
         solution: '$(solution)'
         msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\Web\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
@@ -54,6 +55,7 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
     - task: VSTest@2
+      enabled: false
       inputs:
         testSelector: 'testAssemblies'
         testAssemblyVer2: |
@@ -69,6 +71,7 @@ stages:
         Contents: '**'
         TargetFolder: '$(build.artifactstagingdirectory)'
     - task: DotNetCoreCLI@2
+      enabled: false 
       inputs:
         command: 'pack'
         packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
@@ -77,11 +80,13 @@ stages:
         minorVersion: '0'
         patchVersion: '0'
     - task: PublishBuildArtifacts@1
+      enabled: false
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
     - task: PublishPipelineArtifact@1
+      enabled: false
       inputs:
         targetPath: $(build.artifactStagingDirectory)/Web/
         artifactName: WebApp
