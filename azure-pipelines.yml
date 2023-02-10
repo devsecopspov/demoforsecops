@@ -67,6 +67,10 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: $(build.artifactStagingDirectory)/Web/
+        artifactName: WebApp
 #    - task: FortifyOnDemandStatic@8
 #      inputs:
 #        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
@@ -92,6 +96,9 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: WebApp
           - task: DownloadBuildArtifacts@1
             inputs:
               buildType: 'current'
@@ -104,4 +111,4 @@ stages:
               azureSubscription: 'azConn'
               appType: 'webApp'
               WebAppName: 'demowebappforvelocity'
-              packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
+              packageForLinux: '$(Pipeline.Workspace)/**/Web/*.zip'
