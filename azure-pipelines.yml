@@ -25,7 +25,7 @@ stages:
     - checkout: self
       fetchDepth: 0
     - task: SonarCloudPrepare@1
-      enabled: true
+      enabled: false
       inputs:
         SonarCloud: 'sonarcloud'
         organization: 'devopscapdemo'
@@ -33,9 +33,14 @@ stages:
         projectKey: 'DevOpsCapDemo_DevSecOpsDemo'
         projectName: 'DevSecOpsDemo'
     - task: NuGetToolInstaller@1
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
       inputs:
-        restoreSolution: '$(solution)'
+        command: 'build'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        projects: '**/*Test**.csproj'
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
@@ -43,8 +48,9 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
     - task: SonarCloudAnalyze@1
+      enabled: false
     - task: SonarCloudPublish@1
-      enabled: true
+      enabled: false
       inputs:
         pollingTimeoutSec: '300'
     - task: VSTest@2
@@ -66,7 +72,10 @@ stages:
       inputs:
         command: 'pack'
         packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
-        versioningScheme: 'byBuildNumber'
+        versioningScheme: 'byPrereleaseNumber'
+        majorVersion: '1'
+        minorVersion: '0'
+        patchVersion: '0'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
