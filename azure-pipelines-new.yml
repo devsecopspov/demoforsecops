@@ -1,0 +1,95 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger: 
+- master
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: buildConfiguration
+  value: 'Release'
+stages:
+- stage: Build
+  jobs:
+  - job: Job
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+    - checkout: self
+      fetchDepth: 0
+    - task: SonarCloudPrepare@1
+      enabled: true
+      inputs:
+        SonarCloud: 'sonarcloud'
+        organization: 'devopscapdemo'
+        scannerMode: 'MSBuild'
+        projectKey: 'DevOpsCapDemo_DevSecOpsDemo'
+        projectName: 'DevSecOpsDemo'
+    - task: NuGetToolInstaller@1
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\Web\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+    - task: SonarCloudAnalyze@1
+    - task: SonarCloudPublish@1
+      enabled: true
+      inputs:
+        pollingTimeoutSec: '300'
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+    - task: CopyFiles@2
+      inputs:
+        Contents: '**'
+        TargetFolder: '$(build.artifactstagingdirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    - task: FortifyOnDemandStatic@8
+      inputs:
+        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
+        FodConnection: 'newFortifyConn'
+        ReleaseOptions: '0'
+        ReleaseId: 200959
+        EntitlementSelection: '1'
+        EntitlementPreference: '0'
+        OverrideScanSettings: '1'
+        InProgressScanActionType: '2'
+        RemediationScanPreference: '2'
+        BuildType: 'msbuild'
+        LanguageLevelDotNet: '32'
+        PolicyFailAction: '1'
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+      - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'azConn'
+          appType: 'webApp'
+          WebAppName: 'demowebappforvelocity'
+          packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
