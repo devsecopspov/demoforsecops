@@ -81,18 +81,20 @@ stages:
     environment: PROD
     pool:
       vmImage: 'windows-2019'
-    steps:
-      - task: DownloadBuildArtifacts@1
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'drop'
-          downloadPath: '$(System.ArtifactsDirectory)'
-      - task: AzureRmWebAppDeployment@4
-        inputs:
-          ConnectionType: 'AzureRM'
-          azureSubscription: 'azConn'
-          appType: 'webApp'
-          WebAppName: 'demowebappforvelocity'
-          packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
-    
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@1
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'drop'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'azConn'
+              appType: 'webApp'
+              WebAppName: 'demowebappforvelocity'
+              packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
