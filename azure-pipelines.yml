@@ -62,6 +62,11 @@ stages:
       inputs:
         Contents: '**'
         TargetFolder: '$(build.artifactstagingdirectory)'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'pack'
+        packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
+        versioningScheme: 'byBuildNumber'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
@@ -71,6 +76,13 @@ stages:
       inputs:
         targetPath: $(build.artifactStagingDirectory)/Web/
         artifactName: WebApp
+    - task: NuGetAuthenticate@1
+    - task: NuGetCommand@2
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: '4528bd78-c535-4916-bd8a-59275f5a5306/2918157a-5f27-4741-b144-b7960b2b99b6'
 #    - task: FortifyOnDemandStatic@8
 #      inputs:
 #        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
