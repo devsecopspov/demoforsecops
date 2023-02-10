@@ -60,20 +60,20 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-    - task: FortifyOnDemandStatic@8
-      inputs:
-        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
-        FodConnection: 'newFortifyConn'
-        ReleaseOptions: '0'
-        ReleaseId: 200959
-        EntitlementSelection: '1'
-        EntitlementPreference: '0'
-        OverrideScanSettings: '1'
-        InProgressScanActionType: '2'
-        RemediationScanPreference: '2'
-        BuildType: 'msbuild'
-        LanguageLevelDotNet: '32'
-        PolicyFailAction: '1'
+#    - task: FortifyOnDemandStatic@8
+#      inputs:
+#        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
+#        FodConnection: 'newFortifyConn'
+#        ReleaseOptions: '0'
+#        ReleaseId: 200959
+#        EntitlementSelection: '1'
+#        EntitlementPreference: '0'
+#        OverrideScanSettings: '1'
+#        InProgressScanActionType: '2'
+#        RemediationScanPreference: '2'
+#        BuildType: 'msbuild'
+#        LanguageLevelDotNet: '32'
+#        PolicyFailAction: '1'
 - stage: Deploy
   jobs:
   - job: Deploy
