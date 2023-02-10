@@ -76,7 +76,9 @@ stages:
 #        PolicyFailAction: '1'
 - stage: Deploy
   jobs:
-  - job: Deploy
+  - deployment: publishinternal
+    displayName: 'Publish the Application'
+    environment: PROD
     pool:
       vmImage: 'windows-2019'
     steps:
