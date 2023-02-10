@@ -90,11 +90,10 @@ stages:
         targetPath: $(build.artifactStagingDirectory)/Web/
         artifactName: WebApp
     - task: NuGetAuthenticate@1
-    - task: NuGetCommand@2
-      displayName: 'Publish the package in artifact feed'
+    - task: DotNetCoreCLI@2
       inputs:
         command: 'push'
-        packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/'
         nuGetFeedType: 'internal'
         publishVstsFeed: '4528bd78-c535-4916-bd8a-59275f5a5306/2918157a-5f27-4741-b144-b7960b2b99b6'
 #    - task: FortifyOnDemandStatic@8
