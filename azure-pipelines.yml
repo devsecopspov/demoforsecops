@@ -79,7 +79,7 @@ stages:
         publishWebProjects: true
         modifyOutputPath: false
     - task: PublishBuildArtifacts@1
-      enabled: false
+      enabled: true
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
@@ -91,6 +91,7 @@ stages:
         artifactName: WebApp
     - task: NuGetAuthenticate@1
     - task: NuGetCommand@2
+      displayName: 'Publish the package in artifact feed'
       inputs:
         command: 'push'
         packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.zip'
@@ -121,9 +122,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifact: WebApp
           - task: DownloadBuildArtifacts@1
             inputs:
               buildType: 'current'
@@ -136,4 +134,4 @@ stages:
               azureSubscription: 'azConn'
               appType: 'webApp'
               WebAppName: 'demowebappforvelocity'
-              packageForLinux: '$(Pipeline.Workspace)/**/Web/*.zip'
+              packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
