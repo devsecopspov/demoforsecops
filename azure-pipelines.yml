@@ -60,11 +60,12 @@ stages:
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: True
     - task: PublishPipelineArtifact@1
-      displayName: 'Publish Web App for Deployment'
+      displayName: 'Copy Artifact for Deployment'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'myWebsiteName'
     - script: dotnet pack /p:PackageVersion=$(Build.BuildNumber)  # define version variable elsewhere in your pipeline
+      displayName: 'Package for Nuget Feed Publish'
     - task: NuGetAuthenticate@0      
       displayName: 'Authenticate for Nuget Feed Publish'
     - task: NuGetCommand@2
