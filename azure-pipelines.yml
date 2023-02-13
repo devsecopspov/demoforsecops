@@ -64,7 +64,7 @@ stages:
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'myWebsiteName'
-    - script: dotnet pack /p:PackageVersion=1.0  # define version variable elsewhere in your pipeline
+    - script: dotnet pack /p:PackageVersion=$(Build.BuildNumber)  # define version variable elsewhere in your pipeline
     - task: NuGetAuthenticate@0      
       displayName: 'Authenticate for Nuget Feed Publish'
     - task: NuGetCommand@2
