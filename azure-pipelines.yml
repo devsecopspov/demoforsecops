@@ -57,10 +57,6 @@ stages:
         modifyOutputPath: false
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: True
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)' 
-        artifactName: 'myWebsiteName'
     - script: dotnet pack /p:PackageVersion=1.0  # define version variable elsewhere in your pipeline
     - task: NuGetAuthenticate@0      
     - task: NuGetCommand@2
@@ -69,6 +65,10 @@ stages:
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: '4528bd78-c535-4916-bd8a-59275f5a5306/2918157a-5f27-4741-b144-b7960b2b99b6'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'myWebsiteName'
 #    - task: FortifyOnDemandStatic@8
 #      inputs:
 #        FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
