@@ -100,4 +100,4 @@ stages:
               azureSubscription: 'azConn'
               appType: 'webApp'
               WebAppName: 'demowebappforvelocity'
-              packageForLinux: '$(System.ArtifactsDirectory)/**/Web/*.zip'
+              packageForLinux: '$(Pipeline.Workspace)/*.zip'
