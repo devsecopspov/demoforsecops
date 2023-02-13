@@ -43,58 +43,30 @@ stages:
       inputs:
         command: 'test'
         projects: '**/*Test**.csproj'
-    - task: VSBuild@1
-      enabled: false
-      inputs:
-        solution: '$(solution)'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\Web\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
     - task: SonarCloudAnalyze@1
       enabled: false
     - task: SonarCloudPublish@1
       enabled: false
       inputs:
         pollingTimeoutSec: '300'
-    - task: VSTest@2
-      enabled: false
-      inputs:
-        testSelector: 'testAssemblies'
-        testAssemblyVer2: |
-          **\*Test*.dll
-          !**\*TestAdapter.dll
-          !**\obj\**
-        searchFolder: '$(System.DefaultWorkingDirectory)'
-        codeCoverageEnabled: true
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-    - task: CopyFiles@2
-      inputs:
-        Contents: '**'
-        TargetFolder: '$(build.artifactstagingdirectory)'
     - task: DotNetCoreCLI@2
       displayName: 'Publish the source code'
       inputs:
         command: 'publish'
         publishWebProjects: true
         modifyOutputPath: false
-    - task: PublishBuildArtifacts@1
-      enabled: true
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: True
+    - task: PublishPipelineArtifact@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
-    - task: DotNetCoreCLI@2
-      enabled: false
-      inputs:
-        command: 'pack'
-        packagesToPack: '**/*.csproj'
-        versioningScheme: 'off'
-    - task: DotNetCoreCLI@2
-      enabled: false
+        targetPath: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'myWebsiteName'
+    - script: dotnet pack /p:PackageVersion=1.0  # define version variable elsewhere in your pipeline
+    - task: NuGetAuthenticate@0      
+    - task: NuGetCommand@2
       inputs:
         command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: '4528bd78-c535-4916-bd8a-59275f5a5306/2918157a-5f27-4741-b144-b7960b2b99b6'
 #    - task: FortifyOnDemandStatic@8
@@ -122,12 +94,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadBuildArtifacts@1
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'drop'
-              downloadPath: '$(System.ArtifactsDirectory)'
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
