@@ -39,7 +39,7 @@ stages:
         command: 'build'
         projects: '**/*.csproj'
     - task: DotNetCoreCLI@2
-      displayName: 'Build the source code'
+      displayName: 'Test the source code'
       inputs:
         command: 'test'
         projects: '**/*Test**.csproj'
@@ -84,18 +84,14 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-    - task: PublishPipelineArtifact@1
-      enabled: false
-      inputs:
-        targetPath: $(build.artifactStagingDirectory)/Web/
-        artifactName: WebApp
-    - task: NuGetAuthenticate@1
     - task: DotNetCoreCLI@2
+      enabled: false
       inputs:
         command: 'pack'
         packagesToPack: '**/*.csproj'
         versioningScheme: 'off'
     - task: DotNetCoreCLI@2
+      enabled: false
       inputs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/'
