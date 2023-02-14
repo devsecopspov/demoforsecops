@@ -90,7 +90,7 @@ stages:
         RemediationScanPreference: '0'
         BuildType: 'none'
         TechnologyStackOthers: '1'
-        LanguageLevelDotNet: '33'
+        LanguageLevelDotNet: '32'
         PolicyFailAction: '0'
         
 - stage: Deploy
