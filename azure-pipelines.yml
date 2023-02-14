@@ -89,8 +89,7 @@ stages:
         InProgressScanActionType: '0'
         RemediationScanPreference: '0'
         BuildType: 'none'
-        TechnologyStackOthers: '1'
-        LanguageLevelDotNet: '32'
+        TechnologyStackOthers: '16'
         PolicyFailAction: '0'
         
 - stage: Deploy
