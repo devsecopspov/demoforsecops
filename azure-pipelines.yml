@@ -85,6 +85,7 @@ stages:
         EntitlementSelection: '1'
         EntitlementPreference: '0'
         OverrideScanSettings: '1'
+        AssessmentTypeId: '14'
         InProgressScanActionType: '0'
         RemediationScanPreference: '0'
         BuildType: 'none'
