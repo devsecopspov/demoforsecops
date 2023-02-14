@@ -87,7 +87,8 @@ stages:
         OverrideScanSettings: '1'
         InProgressScanActionType: '0'
         RemediationScanPreference: '0'
-        BuildType: 'msbuild'
+        BuildType: 'none'
+        TechnologyStackOthers: '1'
         LanguageLevelDotNet: '33'
         PolicyFailAction: '0'
         
