@@ -80,8 +80,8 @@ stages:
       inputs:
         FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
         FodConnection: 'newFortifyConn'
-        ReleaseOptions: '0'
-        ReleaseId: 200959
+        ReleaseOptions: '1'
+        BSIToken: 'eyJ0ZW5hbnRJZCI6MjUzNDMsInRlbmFudENvZGUiOiJBY2NlbnR1cmVfNDc0NDQ3MDI3X0ZNQV8yMDE4NDk0ODQiLCJyZWxlYXNlSWQiOjIwMDk1OSwicGF5bG9hZFR5cGUiOiJBTkFMWVNJU19QQVlMT0FEIiwiYXNzZXNzbWVudFR5cGVJZCI6MTQsInRlY2hub2xvZ3lUeXBlIjoiLk5FVCIsInRlY2hub2xvZ3lUeXBlSWQiOjEsInRlY2hub2xvZ3lWZXJzaW9uIjoiNS4wIiwidGVjaG5vbG9neVZlcnNpb25JZCI6MzIsImF1ZGl0UHJlZmVyZW5jZSI6IkF1dG9tYXRlZCIsImF1ZGl0UHJlZmVyZW5jZUlkIjoyLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJwb3J0YWxVcmkiOiJodHRwczovL3RyaWFsLmZvcnRpZnkuY29tLyIsImFwaVVyaSI6Imh0dHBzOi8vYXBpLnRyaWFsLmZvcnRpZnkuY29tIiwic2NhblByZWZlcmVuY2UiOiJTdGFuZGFyZCIsInNjYW5QcmVmZXJlbmNlSWQiOjF9'
         EntitlementSelection: '1'
         EntitlementPreference: '0'
         OverrideScanSettings: '1'
@@ -89,7 +89,8 @@ stages:
         InProgressScanActionType: '0'
         RemediationScanPreference: '0'
         BuildType: 'none'
-        TechnologyStackOthers: '16'
+        TechnologyStackOthers: '1'
+        LanguageLevelDotNet: '32'
         PolicyFailAction: '0'
         
 - stage: Deploy
