@@ -25,7 +25,7 @@ stages:
     - checkout: self
       fetchDepth: 0
     - task: SonarCloudPrepare@1
-      enabled: false
+      enabled: true
       inputs:
         SonarCloud: 'sonarcloud'
         organization: 'devopscapdemo'
@@ -45,10 +45,10 @@ stages:
         projects: '**/*Test**.csproj'
     - task: SonarCloudAnalyze@1
       displayName: 'Sonar Cloud Analyze'
-      enabled: false
+      enabled: true
     - task: SonarCloudPublish@1
       displayName: 'Sonar Cloud Publish'
-      enabled: false
+      enabled: true
       inputs:
         pollingTimeoutSec: '300'
     - task: DotNetCoreCLI@2
