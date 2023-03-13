@@ -107,11 +107,11 @@ stages:
         ReleaseId: '202825'
         APIAuthenticationType: '2'
         Username: 'c.chittepu.reddy@accenture.com'
-        PersonalAccessTokenSecret: 'ZWc2dT1EUyJ8RmdaN1JvZk9VR0N5NHVwNVJHNkNa0'
+        PersonalAccessTokenSecret: 'WHg9S25xb210OzNmbEk2M2txS3p1STJXWEZnNFlg0'
         TenantID: 'Accenture_299277767_FMA_100081812'
-        EntitlementPreference: '2'
-        PreferRemediation: true
+        EntitlementPreference: '1'
         PurchaseEntitlements: true
+        PreferRemediation: true
 
 - stage: Deploy
   jobs:
