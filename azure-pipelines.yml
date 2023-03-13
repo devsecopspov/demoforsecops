@@ -112,7 +112,12 @@ stages:
         EntitlementPreference: '1'
         PurchaseEntitlements: true
         PreferRemediation: true
-
+    - task: dependency-check-build-task@6
+      inputs:
+        projectName: "DevSecOpsDemo"
+        scanPath: '**/*.csproj'
+        format: 'HTML'
+        failOnCVSS: '8'
 - stage: Deploy
   jobs:
   - deployment: publishinternal
