@@ -104,7 +104,7 @@ stages:
     - task: FortifyOnDemandDynamic@7
       inputs:
         APIUrl: 'https://api.ams.fortify.com'
-        ReleaseId: '202825'
+        ReleaseId: '1'
         APIAuthenticationType: '2'
         Username: 'c.chittepu.reddy@accenture.com'
         PersonalAccessTokenSecret: 'WHg9S25xb210OzNmbEk2M2txS3p1STJXWEZnNFlg0'
