@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreDotnetDockerDemo.Pages
 {
