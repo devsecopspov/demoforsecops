@@ -25,7 +25,7 @@ stages:
     - checkout: self
       fetchDepth: 0
     - task: SonarCloudPrepare@1
-      enabled: false
+      enabled: true
       inputs:
         SonarCloud: 'sonarcloud'
         organization: 'devopscapdemo'
@@ -33,30 +33,30 @@ stages:
         projectKey: 'DevOpsCapDemo_DevSecOpsDemo'
         projectName: 'DevSecOpsDemo'
     - task: NuGetToolInstaller@1
-      enabled: false
+      enabled: true
     - task: DotNetCoreCLI@2
-      enabled: false
+      enabled: true
       displayName: 'Build the source code'
       inputs:
         command: 'build'
         projects: '**/*.csproj'
     - task: DotNetCoreCLI@2
-      enabled: false
+      enabled: true
       displayName: 'Test the source code'
       inputs:
         command: 'test'
         projects: '**/*Test**.csproj'
     - task: SonarCloudAnalyze@1
-      enabled: false
+      enabled: true
       displayName: 'Sonar Cloud Analyze'
 
     - task: SonarCloudPublish@1
-      enabled: false
+      enabled: true
       displayName: 'Sonar Cloud Publish'
       inputs:
         pollingTimeoutSec: '300'
     - task: DotNetCoreCLI@2
-      enabled: false
+      enabled: true
       displayName: 'Publish the source code'
       inputs:
         command: 'publish'
@@ -65,7 +65,7 @@ stages:
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: True
     - task: PublishPipelineArtifact@1
-      enabled: false
+      enabled: true
       displayName: 'Copy Artifact for Deployment'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)' 
@@ -73,10 +73,10 @@ stages:
     - script: dotnet pack /p:PackageVersion=$(Build.BuildNumber)  # define version variable elsewhere in your pipeline
       displayName: 'Package for Nuget Feed Publish'
     - task: NuGetAuthenticate@0
-      enabled: false
+      enabled: true
       displayName: 'Authenticate for Nuget Feed Publish'
     - task: NuGetCommand@2
-      enabled: false
+      enabled: true
       displayName: 'Nuget Feed Publish'
       inputs:
         command: 'push'
