@@ -102,6 +102,7 @@ stages:
         LanguageLevelDotNet: '32'
         PolicyFailAction: '0'
     - task: FortifyOnDemandDynamic@7
+      enabled: false
       inputs:
         APIUrl: 'https://api.trial.fortify.com'
         ReleaseId: '1'
@@ -113,6 +114,7 @@ stages:
         PurchaseEntitlements: true
         PreferRemediation: true
     - task: dependency-check-build-task@6
+      displayName: 'OWASP Dependency Check'
       inputs:
         projectName: "DevSecOpsDemo"
         scanPath: '**/*.csproj'
