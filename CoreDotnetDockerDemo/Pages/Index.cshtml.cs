@@ -15,8 +15,8 @@ namespace CoreDotnetDockerDemo.Pages
         public void OnGet()
         {
             this.Message = "This is my First ASP.Net Core Razor Page";
-            string name = Request.QueryString["name"];
-            Response.Write("Hello " + name); // Noncompliant
+            string name = Request.Query["name"];
+            Response.WriteAsync("Hello " + name); // Noncompliant
         }
         
         
