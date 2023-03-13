@@ -33,6 +33,7 @@ stages:
         projectKey: 'DevOpsCapDemo_DevSecOpsDemo'
         projectName: 'DevSecOpsDemo'
     - task: NuGetToolInstaller@1
+      enabled: false
     - task: DotNetCoreCLI@2
       enabled: false
       displayName: 'Build the source code'
