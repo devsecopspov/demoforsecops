@@ -14,7 +14,11 @@ namespace CoreDotnetDockerDemo.Pages
         public void OnGet()
         {
             this.Message = "This is my First ASP.Net Core Razor Page";
+            string name = Request.QueryString["name"];
+            Response.Write("Hello " + name); // Noncompliant
         }
+        
+        
         [HttpGet]
         public ActionResult Download(string fileName)
         {
