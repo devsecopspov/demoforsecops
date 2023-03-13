@@ -77,6 +77,7 @@ stages:
         publishVstsFeed: '4528bd78-c535-4916-bd8a-59275f5a5306/2918157a-5f27-4741-b144-b7960b2b99b6'
 
     - task: FortifyOnDemandStatic@8
+      enabled: false
       inputs:
         FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
         FodConnection: 'newFortifyConn'
@@ -92,7 +93,18 @@ stages:
         TechnologyStackOthers: '1'
         LanguageLevelDotNet: '32'
         PolicyFailAction: '0'
-        
+    - task: FortifyOnDemandDynamic@7
+      inputs:
+        APIUrl: 'https://api.ams.fortify.com'
+        ReleaseId: '202825'
+        APIAuthenticationType: '2'
+        Username: 'c.chittepu.reddy@accenture.com'
+        PersonalAccessTokenSecret: 'ZWc2dT1EUyJ8RmdaN1JvZk9VR0N5NHVwNVJHNkNa0'
+        TenantID: 'Accenture_299277767_FMA_100081812'
+        EntitlementPreference: '2'
+        PreferRemediation: true
+        PurchaseEntitlements: true
+
 - stage: Deploy
   jobs:
   - deployment: publishinternal
