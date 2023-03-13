@@ -103,7 +103,7 @@ stages:
         PolicyFailAction: '0'
     - task: FortifyOnDemandDynamic@7
       inputs:
-        APIUrl: 'https://api.ams.fortify.com'
+        APIUrl: 'https://api.trial.fortify.com'
         ReleaseId: '1'
         APIAuthenticationType: '2'
         Username: 'c.chittepu.reddy@accenture.com'
