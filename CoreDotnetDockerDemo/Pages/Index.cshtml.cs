@@ -21,5 +21,16 @@ namespace CoreDotnetDockerDemo.Pages
             byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(environment.ContentRootPath, fileName));
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
+        public FileContentResult GetImageFromFilePath(string filePath)
+        {
+            byte[] image = null;
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                image = System.IO.File.ReadAllBytes(filePath);
+            }
+            if (image == null)
+                return null;
+            return File(image, "image/jpeg");
+        }
     }
 }
