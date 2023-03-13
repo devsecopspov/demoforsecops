@@ -19,8 +19,6 @@ namespace CoreDotnetClassLibrary
             var urlFtp = "ftp://anonymous@example.com";         // Noncompliant
             var urlTelnet = "telnet://anonymous@example.com";   // Noncompliant
 
-            using var smtp = new SmtpClient("host", 25); // Noncompliant, EnableSsl is not set
-            using var telnet = new MyTelnet.Client("host", port); // Noncompliant, rule raises Security Hotspot on any member containing "Telnet"
             
             byte[] image = null;
             if (!string.IsNullOrEmpty(filePath))
