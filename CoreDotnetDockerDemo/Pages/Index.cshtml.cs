@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
-using System.Web.UI;
 
 namespace CoreDotnetDockerDemo.Pages
 {
@@ -16,10 +15,11 @@ namespace CoreDotnetDockerDemo.Pages
         {
             this.Message = "This is my First ASP.Net Core Razor Page";
         }
-        public object MyDeserialize(byte[] bytes)
+        [HttpGet]
+        public ActionResult Download(string fileName)
         {
-            LosFormatter formatter = new LosFormatter();
-            return formatter.Deserialize(new MemoryStream(bytes));
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(environment.ContentRootPath, fileName));
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
     }
 }
