@@ -15,7 +15,7 @@ namespace CoreDotnetDockerDemo.Pages
         public void OnGet()
         {
             this.Message = "This is my First ASP.Net Core Razor Page";
-            string fileName = "test.html"
+            string fileName = "test.html";
             System.IO.File.Delete(fileName); // Noncompliant
             return Content("File " + fileName + " deleted");
         }
