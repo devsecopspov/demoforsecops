@@ -64,7 +64,7 @@ stages:
         FortifyProjects: '$(Build.ArtifactStagingDirectory)/Web'
         FodConnection: 'newFortifyConn'
         ReleaseOptions: '0'
-        ReleaseId: 200959
+        ReleaseId: 202731
         EntitlementSelection: '1'
         EntitlementPreference: '0'
         OverrideScanSettings: '1'
