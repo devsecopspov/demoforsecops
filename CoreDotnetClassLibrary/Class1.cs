@@ -8,7 +8,7 @@ namespace CoreDotnetClassLibrary
 {
     public class Class1
     {
-        public FileContentResult GetImageFromFilePath(string filePath)
+        public string GetImageFromFilePath(string filePath)
         {
             byte[] image = null;
             if (!string.IsNullOrEmpty(filePath))
@@ -17,7 +17,7 @@ namespace CoreDotnetClassLibrary
             }
             if (image == null)
                 return null;
-            return File(image, "image/jpeg");
+            return "image/jpeg";
         }
     }
 }
