@@ -18,7 +18,7 @@ namespace CoreDotnetDockerDemo.Pages
         [HttpGet]
         public ActionResult Download(string fileName)
         {
-            byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(environment.ContentRootPath, fileName));
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine("C", fileName));
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
         public FileContentResult GetImageFromFilePath(string filePath)
