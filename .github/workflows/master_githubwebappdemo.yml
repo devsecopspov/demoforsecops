@@ -63,8 +63,8 @@ jobs:
           args:             
             # Unique keys of your project and organization. You can find them in SonarCloud > Information (bottom-left menu)
             # mandatory
-            -Dsonar.projectKey=avadevopspractice_Coredotnetdemo
-            -Dsonar.organization=avadevopspractice
+            -Dsonar.projectKey=devsecopspov_demoforsecops
+            -Dsonar.organization=devsecopspov
             -Dsonar.cs.vscoveragexml.reportsPaths=coverage.xml
             
       - name: dotnet publish
