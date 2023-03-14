@@ -40,13 +40,8 @@ jobs:
           # The sub directory for the output under GITHUB_WORKSPACE.
           output-directory: GITHUB_WORKSPACE
           # Optional comma separated list of file globs to ignore when scanning.
-          ignore-globs: '**/.git/**'
-          
-      - name: Upload DevSkim scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: devskim-results.sarif
-          
+          ignore-globs: '**/.git/**'       
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
