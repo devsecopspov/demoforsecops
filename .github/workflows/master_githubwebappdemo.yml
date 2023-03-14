@@ -31,9 +31,17 @@ jobs:
       - name: Generate dotnet-coverage report
         run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
       
-      - name: Run DevSkim scanner
-        uses: microsoft/DevSkim-Action@v1
-
+      - name: DevSkim
+        uses: microsoft/DevSkim-Action@v1.0.5
+        with:
+          # The sub directory of the repository root to scan. Repository root used by default.
+          directory-to-scan: GITHUB_WORKSPACE                    
+          output-filename: devskim-results.sarif
+          # The sub directory for the output under GITHUB_WORKSPACE.
+          output-directory: GITHUB_WORKSPACE
+          # Optional comma separated list of file globs to ignore when scanning.
+          ignore-globs: '**/.git/**'
+          
       - name: Upload DevSkim scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
